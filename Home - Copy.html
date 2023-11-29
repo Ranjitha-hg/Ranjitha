@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management Home Page</title>
+    
+</head>
+<style>
+*{
+    margin:0;
+    padding:0;
+}
+#navbar
+{
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+}
+#navbar::before
+{
+    content: "";
+    background-color: black;
+    position: absolute;
+    height: 100%;
+    width:100%;
+    top:0px;
+    left:0px;
+    z-index: -1;
+    opacity:0.4;
+}
+#navbar
+{
+    position: relative;
+}
+
+#navbar ul{
+    display:flex;
+}
+#navbar ul li
+{
+    list-style: none;
+    font-size: 20px;
+}
+
+#navbar ul li a{
+    color:white;
+    display: block;
+    padding:3px 22px;
+    border-radius: 20px;
+    text-decoration: none;
+}
+#navbar ul li a:hover{
+    color:black;
+    background-color: white;
+}
+#home
+{
+    display: flex;
+    flex-direction:column;
+    padding: 3px 100px;
+    justify-content: center;
+    align-items: center;
+    height: 633px;
+}
+#home::before
+{
+    content: "";
+    background-color: rgb(0, 100, 120);
+    position:absolute;
+    height:65%;
+    width:100%;
+    z-index: -1;
+    opacity:0.40;
+    top:0px;
+    left:0px;
+}
+#home h1{
+    color:black;
+    text-align: center;
+    font-style: italic;
+}
+.primary
+{
+    font-size:3.2rem;
+    padding:12px;
+
+}
+.btn
+{
+    background-color:white;
+    padding: 6px 20px;
+    border:2px solid white;
+    margin:17px;
+    font-size:1.2rem;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.h-primary 
+{
+    font-size:40px;
+    padding:12px;
+    margin-top: -150px;
+}
+.h-secondary
+{
+    font-size:3s0px;
+    padding:20px;
+}
+
+#services
+{
+    margin: 34px;
+    display: flex;
+    
+}
+#services .box
+{
+   
+    padding: 20px 25px 20px 10px;
+    margin:3px 6px;
+    border-radius: 27px;
+    background-color: rgb(0, 100, 120);
+
+}
+#services .box img
+{
+   height:250px;
+   margin: auto;
+   display: block;
+}
+
+#clients .client-item img
+{
+   display: block;
+   margin-left:auto;
+   margin-right: auto;
+   width: 70%;
+   margin-top: 30px;
+}
+.final
+{
+background-color: black;
+color: antiquewhite;
+display: flex;
+
+}
+
+.map
+{
+    width: 500px;
+    height: 300px;
+}
+.aboutp
+{
+    margin-top: 100px;
+    margin-left: 100px;
+}
+.about{
+    margin: 2px;
+}
+.map
+{
+    margin:60px;
+}
+.image
+{
+font-size:40px;
+}
+h2,p{
+color: white;
+text-align:center;
+}
+</style>
+<body>
+    <nav id="navbar">
+       
+        <ul>
+            <li class="item"><a href="#">Home</a></li>
+            <li class="item"><a onclick="gotoadmin_page()">Admin</a></li>
+            <li class="item"><a onclick="gotocourses_page()">Courses</a></li>
+            <li class="item"><a onclick="gotogrades_page()">Grades</a></li>
+            <li class="item"><a onclick="gotologin_page()">Login</a></li>
+            <li class="item"><a onclick="gotoregister_page()">Register</a></li>
+        </ul>
+    </nav>
+    <section id="home">
+        <h1 class="primary">Learn With Us.<br>Improve With Us.</h1>
+        <button class="btn"><a href="login_page.html">START NOW</a></button>
+    </section>
+    <section id="services-container">
+        <h1 class="h-primary center"><center>COURSES OFFERED</center></h1>
+        <div id="services">
+            <div class="box">
+                <img src="ug1.jpg">
+                <h2 class="h-secondary center">UNDER GRADUATE PROGRAMMES</h2>
+                <p class="center">BIET offers Bachelor of Engineering (B.E) in 9 disciplines like Civil, Mechanical, Electrical & Electronics, Electronics & Communication, Textile Technology, Bio-Technology, Chemical, Computer Science & Engineering and Information Science & Engineering.</p>
+            </div>
+            <div class="box">
+                <img src="pg.jpg">
+                <h2 class="h-secondary center">POST GRADUATE PROGRAMMES</h2>
+                <p class="center">BIET offers Four Post Graduate programs like MBA, MCA and M.Tech. in Environmental Engineering and Structural Engineering.</p>
+            </div>
+            <div class="box">
+                <img src="research.jpg" alt="">
+                <h2 class="h-secondary center">RESEARCH PROGRAMMES</h2>
+                <p class="center">BIET provides a conducive environment to carry out quality Research, hence offers Research in 13 disciplines, which are recognized by reputed VTU and Kuvempu University.</p>
+            </div>
+        </div>
+    </section>
+    <section id="client-section">
+        <h1 class="image"><center>PLACEMENT PARTNERS </center></h1>
+        <div id="clients">
+            <div class="client-item">
+                <img src="place.jpg" alt="Our Client">
+            </div>
+        </div>
+    </section>
+    <footer>
+    <div class="final">
+        <div class="map">
+            <p><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7727.246881224877!2d75.89477168630896!3d14.448851694078636!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bba256183723769%3A0xc0d54a9de2b6f57c!2sBIET%20Davangere!5e0!3m2!1sen!2sin!4v1700753463897!5m2!1sen!2sin" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></p>       
+        </div>
+        <div class="aboutp">
+            <h1 class="about">Contact us</h1>
+            <p>Bapuji Institute of Engineering & Technology</p>
+            <p>P.O.Box No. 325, Shamanur Road</p>
+            <p>Davangere</p>
+            <p>Karnataka</p>
+           <p>577004</p></div>
+    </div>
+    </footer>
+    <script>
+    function gotoregister_page() {
+    	window.location.href = "regestration.html";
+	}
+    function gotologin_page() {
+    	window.location.href = "login_page.html";
+	}
+    function gotoadmin_page() {
+    	window.location.href = "admin_page.html";
+	}
+    function gotocourses_page() {
+    	window.location.href = "course.html";
+	}
+    function gotogrades_page() {
+    	window.location.href = "Grades.html";
+	}
+    </script>
+</body>
+</html>

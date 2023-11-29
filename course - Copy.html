@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Management</title>
+    <style>
+        body {
+          font-family: Arial, sans-serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          background-color: #f2f2f2;
+        }
+        .container {
+          background-color: #fff;
+          display: flex;
+          flex-wrap: wrap;
+          max-width: 900px;
+          margin: 200px 200px 200px 200px;
+          border: 3px solid #ccc;
+          padding: 20px;
+          box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1,h2{
+          text-align: center;
+          margin-bottom: 30px;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+        th,
+        td {
+          border: 1px solid #000;
+          padding: 8px;
+          text-align: left;
+        }
+        th {
+          background-color: #ccc;
+        }
+        /* Style for input elements */
+        input[type='text']{
+          width: 80%;
+          padding: 10px;
+          margin-top: 15px;
+          margin-bottom: 30px;
+          border: 1px solid black;
+          border-radius: 4px;
+        }
+        /* Style for buttons */
+        button {
+          background-color: #007bff;
+          color: #fff;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          text-align: center;
+          margin-left: 350px;
+          height: 40px;
+          width: 150px;
+        }
+        button:hover {
+          background-color: #0056b3;
+        }
+        .deleteButton {
+          text-align: center;
+        }
+        i {
+          margin: 5px 7px;
+          font-size: 20px;
+          cursor: pointer;
+        }
+        #yesBtn:hover {
+          color: red;
+        }
+        #noBtn:hover {
+          color: green;
+        }
+        .submit{
+          margin-left: 95px;
+        }
+        </style>
+</head>
+<body>
+
+    <div class="container">
+    <form action="SaveCourses" method="get">
+        <h1>Course Management</h1>
+        <form id="courseForm">
+        <label for="courseName">Course Name:</label>
+        <input type="text" id="coursename" name="coursename" required>
+        <label for="courseCode">Course Code:</label>
+        <input type="text" id="coursecode" name="coursecode" required>
+        <button type="submit" onclick="addCourse()">Add Course</button>
+      </form>
+        
+	</div>
+    <script>
+        function addCourse() {
+            var courseName = document.getElementById('courseName').value;
+            var courseCode = document.getElementById('courseCode').value;
+
+            if (courseName && courseCode) {
+                var table = document.getElementById('courseTable');
+                var row = table.insertRow(table.rows.length);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+
+                cell1.innerHTML = courseName;
+                cell2.innerHTML = courseCode;
+                cell3.innerHTML = '<button onclick="editCourse(this)">Edit</button>';
+                cell4.innerHTML = '<button onclick="deleteCourse(this)">Delete</button>';
+
+                // Clear the input fields
+                document.getElementById('courseName').value = '';
+                document.getElementById('courseCode').value = '';
+            } else {
+                alert('Please enter both Course Name and Course Code.');
+            }
+        }
+
+        function editCourse(button) {
+            var row = button.parentNode.parentNode;
+            var courseName = row.cells[0].innerHTML;
+            var courseCode = row.cells[1].innerHTML;
+
+            document.getElementById('courseName').value = courseName;
+            document.getElementById('courseCode').value = courseCode;
+
+            // Remove the edited row
+            row.parentNode.removeChild(row);
+        }
+
+        function deleteCourse(button) {
+            var row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+    </script>
+    </form>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Database Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f2f2f2;
+}
+.container {
+  background-color: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 800px;
+  margin: 200px 200px 200px 200px;
+  border: 3px solid #ccc;
+  padding: 20px 0px 40px 50px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+h1,h2{
+  text-align: center;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th,
+td {
+  border: 1px solid #000;
+  padding: 8px;
+  text-align: left;
+}
+th {
+  background-color: #ccc;
+}
+/* Style for input elements */
+input[type='text'],
+input[type='number'] {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid black;
+  border-radius: 4px;
+}
+/* Style for buttons */
+button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+}
+button:hover {
+  background-color: #0056b3;
+}
+.deleteButton {
+  text-align: center;
+}
+i {
+  margin: 5px 7px;
+  font-size: 20px;
+  cursor: pointer;
+}
+#yesBtn:hover {
+  color: red;
+}
+#noBtn:hover {
+  color: green;
+}
+.submit{
+  margin-left: 95px;
+}
+</style>
+<body>
+    <div class="container">
+    <form action="student" method="get">
+            <h1>Student Registration</h1>
+            <form id="record-form">
+                <input type="text" id="name"  name="name" placeholder="Name" required>
+                <input type="number" id="age" name="age" placeholder="Age" required>
+                <input type="text" id="usn"   name="usn" placeholder="USN" required>
+                <input type="text" id="email" name="email"  placeholder="Email" required>
+                <button type="submit" class="submit" >Add Record</button>
+                <input type="hidden" id="edit-index" value="-1">
+            </form>
+    </div>
+<script>
+const recordForm = document.getElementById('record-form');
+const nameInput = document.getElementById('name');
+const ageInput = document.getElementById('age');
+const usnInput = document.getElementById('usn');
+const emailInput = document.getElementById('email');
+const recordList = document.getElementById('record-list');
+const editIndexInput = document.getElementById('edit-index');
+
+// Initialize records from local storage
+let records = JSON.parse(localStorage.getItem('records')) || [];
+console.log(records.length);
+// Function to check for duplicate names
+function isDuplicateName(email) {
+  return records.some(
+    (record) => record.email.toLowerCase() === email.toLowerCase()
+  );
+}
+
+// Display records
+function displayRecords() {
+  recordList.innerHTML = '';
+  console.log(records.length);
+  if (records.length === 0) {
+    const row = document.createElement('tr');
+    row.innerHTML = `<td colspan="5" style="text-align:center;color:red;">No Record Found</td>`;
+    recordList.appendChild(row);
+  } else {
+    records.forEach((record, index) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+                    <td>${record.name}</td>
+                    <td>${record.age}</td>
+                    <td>${record.usn}</td>
+                    <td>${record.email}</td>
+                    <td><button onclick="editRecord(${index})">Edit</button></td>
+                    <td class="deleteButton"><button onclick="deleteRecord(${index})">Delete</button></td>
+                `;
+      recordList.appendChild(row);
+    });
+  }
+}
+
+// Add or Update a record
+recordForm.addEventListener('submit', function (e) {
+  e.preventDefault();
+  const name = nameInput.value;
+  const age = ageInput.value;
+  const usn =usnInput.value;
+  const email = emailInput.value;
+  const editIndex = parseInt(editIndexInput.value);
+
+  if (name && age && usn && email) {
+    if (isDuplicateName(email) && editIndex === -1) {
+      alert('Student already exists.');
+      return;
+    }
+
+    if (editIndex === -1) {
+      // Add a new record
+      records.push({ name, age, usn, email });
+    } else {
+      // Update an existing record
+      records[editIndex] = { name, age, usn, email };
+      editIndexInput.value = -1;
+    }
+
+    localStorage.setItem('records', JSON.stringify(records));
+    nameInput.value = '';
+    ageInput.value = '';
+    usnInput.value = '';
+    emailInput.value = '';
+    displayRecords();
+  }
+});
+
+// Edit a record
+function editRecord(index) {
+  const recordToEdit = records[index];
+  nameInput.value = recordToEdit.name;
+  ageInput.value = recordToEdit.age;
+  usnInput.value = recordToEdit.usn;
+  emailInput.value = recordToEdit.email;
+  editIndexInput.value = index;
+}
+
+// Delete a record
+function deleteRecord(index) {
+  displayRecords();
+  let delBtn = document.querySelectorAll('.deleteButton');
+  console.log(delBtn);
+  delBtn[
+    index
+  ].innerHTML = `<i id="yesBtn" onclick="confirmDelete(${index})" class="fa-solid fa-check"></i><i id="noBtn" onclick="resetDelete(${index})" class="fa-solid fa-xmark"></i>`;
+}
+
+function confirmDelete(index) {
+  records.splice(index, 1);
+  localStorage.setItem('records', JSON.stringify(records));
+  displayRecords();
+}
+
+function resetDelete(index) {
+  displayRecords();
+}
+
+// Initial display
+displayRecords();
+</script>
+</form>
+</body>
+</html>

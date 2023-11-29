@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>User Registration</title>
+</head>
+<style>
+    body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    height: 100vh;
+    background: #f1f1f1;
+    margin: 0;
+}
+
+.container {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    padding: right 15px;
+}
+
+form {
+    display: grid;
+    grid-gap: 20px;
+    width: 500px;
+    padding: 20px 50px 20px 30px;
+}
+
+h2 {
+    margin: 0;
+    color: #333;
+    text-align: center;
+}
+
+label {
+    color: #333;
+}
+
+input {
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+</style>
+<body>
+    <div class="container">
+        <form action="Savedata" method="get">
+            <h2>User Registration</h2>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+            <button type="submit">Register</button>
+    </div>
+
+    <script>
+     function registerUser(event) {
+   
+    const username = document.getElementById('username').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    // Validate password match
+    if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+    }
+
+    // Implement further validation (e.g., username uniqueness, valid email format)
+
+    // Simulate user registration (you would replace this with server-side logic)
+    alert(`User registered!\n\nUsername: ${username}\nEmail: ${email}`);
+
+    // Clear the form
+    document.getElementById('registrationForm').reset();
+}
+
+    </script>
+    </form>
+</body>
+</html>

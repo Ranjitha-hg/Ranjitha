@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Assessment and Grading</title>
+</head>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 950px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+input {
+    width: 90%;
+    padding: 15px;
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+#gradeDisplay {
+    display: none;
+    margin-top: 20px;
+}
+
+</style>
+<body>
+    <div class="container">
+    <form action="SaveGrades" method="get">
+        <h1>Assessment and Grading</h1>
+        <form id="assessmentForm">
+            <label for="studentName">Student Name:</label>
+            <input type="text" id="studentName" name="studentName" placeholder="Enter student name" required>
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="subject" placeholder="Enter subject" required>
+            <label for="score">Score:</label>
+            <input type="text" id="score" name="score" placeholder="Enter score" min="0" max="100" required>
+            <button type="button" onclick="addOrUpdateStudent()">Add/Update</button>
+            <button type="submit">save</button>
+            
+        </form>
+
+        <table id="studentTable">
+            <thead>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Subject</th>
+                    <th>Score</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                    
+                </tr>
+            </thead>
+            <tbody id="studentBody"></tbody>
+        </table>
+
+        <div id="gradeDisplay">
+            <h2>Grade and Percentage</h2>
+            <table id="resultTable">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Overall Grade</th>
+                        <th>Percentage</th>
+                    </tr>
+                </thead>
+                <tbody id="resultBody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const students = [];
+function editStudent(index) {
+    const student = students[index];
+    document.getElementById('studentName').value = student.name;
+    document.getElementById('subject').value = student.subject;
+    document.getElementById('score').value = student.score;
+    document.getElementById('editIndex').value = index;
+    document.getElementById('addUpdateBtn').textContent = 'Update';
+    displayStudentTable();
+    calculateAndDisplayResults();
+}
+function addOrUpdateStudent() {
+    const studentName = document.getElementById('studentName').value;
+    const subject = document.getElementById('subject').value;
+    const score = parseInt(document.getElementById('score').value);
+
+    if (studentName.trim() === '' || subject.trim() === '' || isNaN(score) || score < 0 || score > 100) {
+        alert('Please enter valid student name, subject, and score.');
+        return;
+    }
+
+    const existingStudentIndex = students.findIndex(student => student.name === studentName && student.subject === subject);
+
+    if (existingStudentIndex !== -1) {
+        // Update existing student's score
+        students[existingStudentIndex].score = score;
+    } else {
+        // Add new student
+        students.push({ name: studentName, subject: subject, score: score });
+    }
+
+    displayStudentTable();
+    calculateAndDisplayResults();
+    clearForm();
+}
+
+function deleteStudent(index) {
+    students.splice(index, 1);
+    displayStudentTable();
+    calculateAndDisplayResults();
+}
+
+function displayStudentTable() {
+    const studentBody = document.getElementById('studentBody');
+    studentBody.innerHTML = '';
+
+    students.forEach((student, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${student.name}</td>
+            <td>${student.subject}</td>
+            <td>${student.score}</td>
+            <td><button onclick="editStudent(${index})">Edit</button></td>
+            <td><button onclick="deleteStudent(${index})">Delete</button></td>
+
+        `;
+        studentBody.appendChild(row);
+    });
+}
+
+function calculateAndDisplayResults() {
+    const resultBody = document.getElementById('resultBody');
+    resultBody.innerHTML = '';
+
+    students.forEach(student => {
+        const row = document.createElement('tr');
+        const overallGrade = calculateGrade(student.score);
+        const percentage = calculatePercentage(student.score);
+
+        row.innerHTML = `
+            <td>${student.name}</td>
+            <td>${overallGrade}</td>
+            <td>${percentage}%</td>
+        `;
+        resultBody.appendChild(row);
+    });
+
+    document.getElementById('gradeDisplay').style.display = 'block';
+}
+
+function calculateGrade(score) {
+    if (score >= 90) {
+        return 'A';
+    } else if (score >= 80) {
+        return 'B';
+    } else if (score >= 70) {
+        return 'C';
+    } else if (score >= 60) {
+        return 'D';
+    } else {
+        return 'F';
+    }
+}
+
+function calculatePercentage(score) {
+    return (score / 100) * 100;
+}
+
+function clearForm() {
+    document.getElementById('studentName').value = '';
+    document.getElementById('subject').value = '';
+    document.getElementById('score').value = '';
+}
+
+    </script>
+    </form>
+</body>
+</html>
